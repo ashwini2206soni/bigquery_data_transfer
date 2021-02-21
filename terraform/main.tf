@@ -42,26 +42,26 @@ resource "google_bigquery_data_transfer_config" "CSV_query_config" {
   }
 }
 
-resource "google_bigquery_data_transfer_config" "JSON_query_config" {
-  depends_on = [google_bigquery_table.JSON_table]
+# resource "google_bigquery_data_transfer_config" "JSON_query_config" {
+#   depends_on = [google_bigquery_table.JSON_table]
 
-  display_name           = "json-data-transfer"
-  location               = "us-central1"
-  data_source_id         = "amazon_s3"
-  schedule               = "every 24 hours"
-  destination_dataset_id = google_bigquery_dataset.my_dataset.dataset_id
-  params = {
-    data_path                       = "s3://big-query-data-transfer-demo/*.json"
-    field_delimiter                 = ","
-    file_format                     = "JSON"
-    max_bad_records                 = 0
-    destination_table_name_template = "JSON-big-query-table"
-    access_key_id                   = var.access_key_id
-  }
-  sensitive_params {
-    secret_access_key = var.secret_access_key
-  }
-}
+#   display_name           = "json-data-transfer"
+#   location               = "us-central1"
+#   data_source_id         = "amazon_s3"
+#   schedule               = "every 24 hours"
+#   destination_dataset_id = google_bigquery_dataset.my_dataset.dataset_id
+#   params = {
+#     data_path                       = "s3://big-query-data-transfer-demo/*.json"
+#     field_delimiter                 = ","
+#     file_format                     = "JSON"
+#     max_bad_records                 = 0
+#     destination_table_name_template = "JSON-big-query-table"
+#     access_key_id                   = var.access_key_id
+#   }
+#   sensitive_params {
+#     secret_access_key = var.secret_access_key
+#   }
+# }
 
 resource "google_bigquery_data_transfer_config" "JSON_query_config_GCS" {
   depends_on = [google_bigquery_table.JSON_table_Cloud_Storage, google_project_iam_member.permissions]
@@ -138,52 +138,52 @@ EOF
 
 }
 
-resource "google_bigquery_table" "JSON_table" {
-  dataset_id = google_bigquery_dataset.my_dataset.dataset_id
-  table_id   = "JSON-big-query-table"
-  schema     = <<EOF
+# resource "google_bigquery_table" "JSON_table" {
+#   dataset_id = google_bigquery_dataset.my_dataset.dataset_id
+#   table_id   = "JSON-big-query-table"
+#   schema     = <<EOF
 
-  [
-   {
-    "name": "userId",        
-    "type":  "STRING",
-    "mode":  "REQUIRED" 
-   }
-  ,
-    {
-    "name": "jobTitleName",        
-    "type":  "STRING",
-    "mode":  "REQUIRED" 
-   },
+#   [
+#    {
+#     "name": "userId",        
+#     "type":  "STRING",
+#     "mode":  "REQUIRED" 
+#    }
+#   ,
+#     {
+#     "name": "jobTitleName",        
+#     "type":  "STRING",
+#     "mode":  "REQUIRED" 
+#    },
 
-   {
-    "name": "firstName",        
-    "type":  "STRING",
-    "mode":  "REQUIRED" 
-   },
+#    {
+#     "name": "firstName",        
+#     "type":  "STRING",
+#     "mode":  "REQUIRED" 
+#    },
 
-   {
-    "name": "lastName",        
-    "type":  "STRING",
-    "mode":  "REQUIRED" 
-   },
+#    {
+#     "name": "lastName",        
+#     "type":  "STRING",
+#     "mode":  "REQUIRED" 
+#    },
 
-   {
-    "name": "phoneNumber",        
-    "type":  "STRING",
-    "mode":  "REQUIRED" 
-   },
+#    {
+#     "name": "phoneNumber",        
+#     "type":  "STRING",
+#     "mode":  "REQUIRED" 
+#    },
 
-   {
-    "name": "emailAddress",        
-    "type":  "STRING",
-    "mode":  "REQUIRED" 
-   }
+#    {
+#     "name": "emailAddress",        
+#     "type":  "STRING",
+#     "mode":  "REQUIRED" 
+#    }
 
-]
+# ]
 
-EOF
-}
+# EOF
+# }
 
 
 resource "google_bigquery_table" "JSON_table_Cloud_Storage" {
