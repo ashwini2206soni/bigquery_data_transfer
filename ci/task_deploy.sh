@@ -17,7 +17,7 @@ terraform init \
 echo `ls `
 echo "==> Plan <=="
 terraform plan \
-    -var-file=default.tfvars \
+    -var-file=./default.tfvars \
     -input=false \
     -var "access_key_id=${AWS_AKI}" \
     -var "secret_access_key=${AWS_SAK}" \ 
