@@ -9,10 +9,10 @@ resource "google_project_iam_member" "permissions" {
 
 resource "google_bigquery_data_transfer_config" "CSV_query_config" {
   depends_on = [google_bigquery_table.CSV_table]
-  
-  display_name   = lookup(var.bq_dt_csv_config,"name","") 
-  location       = lookup(var.bq_dt_csv_config,"location","")
-  data_source_id = lookup(var.bq_dt_csv_config,"data_source_id","")
+
+  display_name   = lookup(var.bq_dt_csv_config, "name", "")
+  location       = lookup(var.bq_dt_csv_config, "location", "")
+  data_source_id = lookup(var.bq_dt_csv_config, "data_source_id", "")
   # schedule               = "every 24 hours"
   destination_dataset_id = google_bigquery_dataset.my_dataset.dataset_id
   params = {
@@ -22,25 +22,25 @@ resource "google_bigquery_data_transfer_config" "CSV_query_config" {
     max_bad_records                 = 0
     skip_leading_rows               = 1
     destination_table_name_template = "CSV-big-query-table"
-    access_key_id                   = var.access_key_id  
+    access_key_id                   = var.access_key_id
   }
   sensitive_params {
-    secret_access_key = var.secret_access_key 
+    secret_access_key = var.secret_access_key
   }
 }
 
 
 resource "google_bigquery_data_transfer_config" "JSON_query_config_GCS" {
-  depends_on = [google_bigquery_table.JSON_table_Cloud_Storage, google_project_iam_member.permissions]
-  display_name           = lookup(var.bq_dt_json_config,"name","")  
-  location               = lookup(var.bq_dt_json_config,"location","")
-  data_source_id         = lookup(var.bq_dt_json_config,"data_source_id","")
+  depends_on     = [google_bigquery_table.JSON_table_Cloud_Storage, google_project_iam_member.permissions]
+  display_name   = lookup(var.bq_dt_json_config, "name", "")
+  location       = lookup(var.bq_dt_json_config, "location", "")
+  data_source_id = lookup(var.bq_dt_json_config, "data_source_id", "")
   # schedule               = "every 24 hours"
   destination_dataset_id = google_bigquery_dataset.my_dataset.dataset_id
   params = {
-    data_path_template       = "gs://bq-dt-test/*.json"
-    field_delimiter = ","
-    file_format     = "JSON"
+    data_path_template              = "gs://bq-dt-test/*.json"
+    field_delimiter                 = ","
+    file_format                     = "JSON"
     max_bad_records                 = 0
     skip_leading_rows               = 1
     destination_table_name_template = "JSON_big_query_GCS"
@@ -50,10 +50,10 @@ resource "google_bigquery_data_transfer_config" "JSON_query_config_GCS" {
 
 
 resource "google_bigquery_dataset" "my_dataset" {
-  dataset_id    = lookup(var.dataset,"dataset_id","")   
-  friendly_name = lookup(var.dataset,"friendly_name","")   
-  description   = lookup(var.dataset,"description","")  
-  location      = lookup(var.dataset,"location","")   
+  dataset_id    = lookup(var.dataset, "dataset_id", "")
+  friendly_name = lookup(var.dataset, "friendly_name", "")
+  description   = lookup(var.dataset, "description", "")
+  location      = lookup(var.dataset, "location", "")
 }
 
 
@@ -153,63 +153,63 @@ EOF
 
 
 resource "google_data_loss_prevention_inspect_template" "basic" {
-    depends_on      = [google_bigquery_table.JSON_table_Cloud_Storage]
-    parent          = lookup(var.dlp_inspect_template,"parent","")  
-    description     = lookup(var.dlp_inspect_template,"description","")  
-    display_name    = lookup(var.dlp_inspect_template,"display_name","") 
+  depends_on   = [google_bigquery_table.JSON_table_Cloud_Storage]
+  parent       = lookup(var.dlp_inspect_template, "parent", "")
+  description  = lookup(var.dlp_inspect_template, "description", "")
+  display_name = lookup(var.dlp_inspect_template, "display_name", "")
 
-    inspect_config {
-        info_types {
-            name = "EMAIL_ADDRESS"
-        }
-        
-        info_types {
-            name = "PHONE_NUMBER"
-        }
-       
-        min_likelihood = "LIKELY"
-       
-
-        limits {
-            max_findings_per_item    = 0 
-            max_findings_per_request = 12
-        }
+  inspect_config {
+    info_types {
+      name = "EMAIL_ADDRESS"
     }
+
+    info_types {
+      name = "PHONE_NUMBER"
+    }
+
+    min_likelihood = "LIKELY"
+
+
+    limits {
+      max_findings_per_item    = 0
+      max_findings_per_request = 12
+    }
+  }
 }
 resource "google_data_loss_prevention_job_trigger" "basic-bq-job" {
-    depends_on      = [google_bigquery_table.JSON_table_Cloud_Storage]
-    parent          = lookup(var.dlp_job_trigger,"parent","")
-    description     = lookup(var.dlp_job_trigger,"description","")
-    display_name    = lookup(var.dlp_job_trigger,"display_name","")
+  depends_on   = [google_bigquery_table.JSON_table_Cloud_Storage]
+  parent       = lookup(var.dlp_job_trigger, "parent", "")
+  description  = lookup(var.dlp_job_trigger, "description", "")
+  display_name = lookup(var.dlp_job_trigger, "display_name", "")
 
-    triggers {
-        schedule {
-            recurrence_period_duration = "86400s"
-        }
+  triggers {
+    schedule {
+      recurrence_period_duration = "86400s"
     }
+  }
 
-    inspect_job {
-        inspect_template_name = google_data_loss_prevention_inspect_template.basic.id
-        actions {
-            save_findings {
-                output_config {
-                    table {
-                        project_id = "bigquerydatatransfer"
-                        dataset_id = "demo_dataset"
-                    }
-                }
-            }
+  inspect_job {
+    inspect_template_name = google_data_loss_prevention_inspect_template.basic.id
+    actions {
+      save_findings {
+        output_config {
+          table {
+            project_id = "bigquerydatatransfer"
+            dataset_id = "demo_dataset"
+          }
         }
-        storage_config {
-            
-            
-            big_query_options {
-                table_reference {
-                    project_id = "bigquerydatatransfer"
-                    dataset_id = "demo_dataset"
-                    table_id = "JSON_big_query_GCS"
-                }
-            } 
-        }
+      }
     }
+    storage_config {
+
+
+      big_query_options {
+        table_reference {
+          project_id = "bigquerydatatransfer"
+          dataset_id = "demo_dataset"
+          table_id   = "JSON_big_query_GCS"
+        }
+      }
+    }
+  }
 }
