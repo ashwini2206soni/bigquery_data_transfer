@@ -22,7 +22,8 @@ terraform plan \
     -var-file=default.tfvars \
     -var "access_key_id=${AWS_AKI}" \
     -var "secret_access_key=${AWS_SAK}" \ 
-    -no-color 
+    -no-color \
+    -detailed-exitcode
     
 
 echo "==> Apply <=="
