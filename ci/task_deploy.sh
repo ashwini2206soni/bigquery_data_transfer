@@ -19,9 +19,9 @@ echo "==> Plan <=="
 terraform plan \
     -out=main.tfplan \
     -input=false \
+    -var-file=default.tfvars \
     -var "access_key_id=${AWS_AKI}" \
-    -var "secret_access_key=${AWS_SAK}" \
-    -var-file=default.tfvars \ 
+    -var "secret_access_key=${AWS_SAK}" \ 
     -no-color 
     
 
@@ -29,6 +29,5 @@ echo "==> Apply <=="
 terraform apply \
     -input=false \
     -no-color \
-    -var-file=default.tfvars \ 
     main.tfplan
 echo "==> Done <=="
