@@ -12,9 +12,9 @@ echo "${GCP_CREDENTIALS}" > credentials.json
 echo "==> Init <=="
 terraform init \
     -input=false \
-    -no-color \
+    -no-color 
     
-
+echo `ls`
 echo "==> Plan <=="
 terraform plan \
     -out=main.tfplan \
