@@ -21,6 +21,7 @@ terraform init \
 echo `ls `
 echo "==> Plan <=="
 terraform plan \
+    -out=main.tfplan \
     -var-file="terraform/default.tfvars" \
     -input=false \
     -no-color \
@@ -28,8 +29,7 @@ terraform plan \
     
 echo "==> Apply <=="
 terraform apply \
-    -var-file=terraform/default.tfvars \
     -input=false \
     -no-color \
-    ./terraform
+    main.tfplan
 echo "==> Done <=="
