@@ -7,6 +7,11 @@ resource "google_project_iam_member" "permissions" {
   member = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-bigquerydatatransfer.iam.gserviceaccount.com"
 }
 
+resource "google_project_iam_member" "permission" {
+  role   = "roles/iam.serviceAccountShortTermTokenMinter"
+  member = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-bigquerydatatransfer.iam.gserviceaccount.com"
+}
+
 resource "google_bigquery_data_transfer_config" "CSV_query_config" {
   depends_on = [google_bigquery_table.CSV_table]
 
