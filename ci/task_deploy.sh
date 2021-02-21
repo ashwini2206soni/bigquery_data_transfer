@@ -8,6 +8,9 @@ set -e
 echo "${GCP_CREDENTIALS}" > credentials.json
 echo "${AWS_AKI}" 
 echo "${AWS_SAK}"
+export TF_VAR_access_key_id=$AWS_AKI
+export TF_VAR_secret_access_key=$AWS_SAK
+
 
 echo "==> Init <=="
 terraform init \
@@ -20,8 +23,6 @@ echo "==> Plan <=="
 terraform plan \
     -var-file="terraform/default.tfvars" \
     -input=false \
-    -var "access_key_id=${AWS_AKI}" \
-    -var "secret_access_key=${AWS_SAK}" \ 
     -no-color \
     -detailed-exitcode \
     ./terraform
@@ -29,8 +30,6 @@ terraform plan \
 echo "==> Apply <=="
 terraform apply \
     -var-file=terraform/default.tfvars \
-    -var "access_key_id=${AWS_AKI}" \
-    -var "secret_access_key=${AWS_SAK}" \ 
     -input=false \
     -no-color \
     ./terraform
