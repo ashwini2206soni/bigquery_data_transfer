@@ -4,6 +4,6 @@
     git_branch: master
     # Terraform variables
     gcp_credentials: ((credentials))
-    access_key_id: ((params))
-    secret_access_key: ((sensitive_params))
+    access_key_id: ((params.access_key_id))
+    secret_access_key: ((sensitive_params.secret_access_key))
     # for foundational code use 'default'
