@@ -1,0 +1,9 @@
+---
+    # repository and branch of the infrastructure code
+    git_repo_https: https://github.com/ashwini2206soni/bigquery_data_transfer.git
+    git_branch: master
+    # Terraform variables
+    gcp_credentials: ((credentials))
+    access_key_id: ((params))
+    secret_access_key: ((sensitive_params))
+    # for foundational code use 'default'

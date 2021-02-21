@@ -1,0 +1,6 @@
+credentials.json
+__pycache__
+.terraform
+*.tfstate*
+fly_set.sh
+*.lock*

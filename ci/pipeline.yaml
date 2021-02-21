@@ -1,0 +1,24 @@
+---
+    PARAMETERS: &parameters
+      GCP_CREDENTIALS: ((gcp_credentials))
+      AWS_AKI: ((access_key_id))
+      AWS_SAK: ((secret_access_key))
+    
+    resources:
+      - name: infrastructure-code
+        type: git
+        icon: github
+        source:
+          uri: ((git_repo_https))
+          branch: ((git_branch))
+    
+    jobs:
+      - name: deploy-infrastructure
+        plan:
+          - get: infrastructure-code
+            trigger: true
+          - task: perform-apply
+            file: infrastructure-code/ci/task_deploy.yaml
+            params: *parameters
+
+    

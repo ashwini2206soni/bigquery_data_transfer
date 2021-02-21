@@ -1,0 +1,17 @@
+---
+    platform: linux
+    image_resource:
+      type: docker-image
+      source:
+        repository: hashicorp/terraform
+        tag: 0.14.4
+        # tag: '0.12.29'
+    inputs:
+      - name: infrastructure-code
+
+    run:
+      dir: infrastructure-code
+      path: /bin/sh
+      args:
+        - ci/task_deploy.sh
+    
