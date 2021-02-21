@@ -19,7 +19,6 @@ echo "==> Plan <=="
 terraform plan \
     -out=main.tfplan \
     -input=false \
-    # -var-file=terraform/default.tfvars \
     -var "access_key_id=${AWS_AKI}" \
     -var "secret_access_key=${AWS_SAK}" \
     -no-color 
