@@ -21,6 +21,7 @@ terraform plan \
     -input=false \
     -var "access_key_id=${AWS_AKI}" \
     -var "secret_access_key=${AWS_SAK}" \
+    -var-file=default.tfvars \ 
     -no-color 
     
 
