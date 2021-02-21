@@ -14,7 +14,7 @@ terraform init \
     -input=false \
     -no-color 
     
-echo `ls`
+echo `ls -ltr`
 echo "==> Plan <=="
 terraform plan \
     -var-file=default.tfvars \
