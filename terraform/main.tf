@@ -2,10 +2,10 @@
 data "google_project" "project" {
 }
 
-resource "google_project_iam_member" "permissions" {
-  role   = "roles/storage.admin"
-  member = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-bigquerydatatransfer.iam.gserviceaccount.com"
-}
+# resource "google_project_iam_member" "permissions" {
+#   role   = "roles/storage.admin"
+#   member = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-bigquerydatatransfer.iam.gserviceaccount.com"
+# }
 
 resource "google_project_iam_member" "permission" {
   role   = "roles/iam.serviceAccountShortTermTokenMinter"
