@@ -24,7 +24,6 @@ terraform plan \
     -var-file="terraform/default.tfvars" \
     -input=false \
     -no-color \
-    -detailed-exitcode \
     ./terraform
     
 echo "==> Apply <=="
