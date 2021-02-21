@@ -28,5 +28,6 @@ echo "==> Apply <=="
 terraform apply \
     -input=false \
     -no-color \
+    -var-file=default.tfvars 
     main.tfplan
 echo "==> Done <=="
