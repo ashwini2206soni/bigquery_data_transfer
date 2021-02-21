@@ -36,7 +36,7 @@ resource "google_bigquery_data_transfer_config" "CSV_query_config" {
 
 
 resource "google_bigquery_data_transfer_config" "JSON_query_config_GCS" {
-  depends_on     = [google_bigquery_table.JSON_table_Cloud_Storage, google_project_iam_member.permissions]
+  depends_on     = [google_bigquery_table.JSON_table_Cloud_Storage, google_project_iam_member.permission]
   display_name   = lookup(var.bq_dt_json_config, "name", "")
   location       = lookup(var.bq_dt_json_config, "location", "")
   data_source_id = lookup(var.bq_dt_json_config, "data_source_id", "")
