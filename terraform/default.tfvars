@@ -3,12 +3,12 @@ region  = "us-central1"
 
 
 bq_dt_csv_config = {
-  name           = "csv-data-transfer"
+  name           = "CSV-data-transfer"
   location       = "us-central1"
   data_source_id = "amazon_s3"
 }
 bq_dt_json_config = {
-  name           = "json_GCS_data_transfer"
+  name           = "JSON_GCS_data_transfer"
   location       = "us-central1"
   data_source_id = "google_cloud_storage"
 }
