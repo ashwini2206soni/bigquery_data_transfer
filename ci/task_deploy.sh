@@ -2,8 +2,6 @@
 
 set -e
 
-
-
 # move concourse parameters into files for terraform consumption
 echo "${GCP_CREDENTIALS}" > credentials.json
 echo "${AWS_AKI}" 
